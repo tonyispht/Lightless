@@ -208,11 +208,11 @@ button.small{padding:9px 18px;font-size:11px}
   <div class="tsec"><button id="dailyBtn">&#9728; Daily cave</button><div id="dailySub" class="tnote"></div></div>
   <div class="tsec codewrap"><div class="tlabel">Have a cave code?</div>
     <div class="coderow"><input id="codeIn" placeholder="ABC-123" maxlength="9" autocomplete="off" spellcheck="false"><button id="codeGo">Go to cave</button></div></div>
-  <div class="tsec"><button id="titleJour" class="small">Journal</button><a class="coffee" href="https://buymeacoffee.com/Tonyispht" target="_blank" rel="noopener">&#9749; Buy me a coffee</a></div>
+  <div class="tsec"><button id="titleJour" class="small">Journal</button><button id="quitBtn" class="small">Quit</button><a class="coffee" href="https://buymeacoffee.com/Tonyispht" target="_blank" rel="noopener">&#9749; Buy me a coffee</a></div>
   <button class="iconbtn" id="titleSet" title="Settings" aria-label="Settings"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
   <div class="controls">
     <b>W A S D</b> move &nbsp;·&nbsp; <b>Mouse</b> look &nbsp;·&nbsp; <b>Shift</b> run &nbsp;·&nbsp; <b>Space</b> jump &nbsp;·&nbsp; <b>E</b> talk / pick up<br>
-    <b>C</b> chalk &nbsp;·&nbsp; <b>G</b> flare &nbsp;·&nbsp; <b>T</b> throw stone &nbsp;·&nbsp; <b>L</b> lantern &nbsp;·&nbsp; <b>V</b> pale sight &nbsp;·&nbsp; <b>J</b> journal &nbsp;·&nbsp; <b>R</b> new cave &nbsp;·&nbsp; <b>F</b> fullscreen &nbsp;·&nbsp; <b>Esc</b> pause<br>
+    <b>C</b> chalk &nbsp;·&nbsp; <b>G</b> flare &nbsp;·&nbsp; <b>T</b> throw stone &nbsp;·&nbsp; <b>L</b> lantern &nbsp;·&nbsp; <b>V</b> pale sight &nbsp;·&nbsp; <b>J</b> journal &nbsp;·&nbsp; <b>R</b> new cave &nbsp;·&nbsp; <b>F</b> fullscreen &nbsp;·&nbsp; <b>Esc</b> pause · save &amp; exit<br>
     Gamepad: A jump · X use · B stone · LB chalk · RB flare · Y sight · D-pad up lantern · Select journal · Start pause<br>
     Your light burns down — rekindle it at any campfire. Somewhere half a mile below, something is singing.
   </div>
@@ -221,7 +221,7 @@ button.small{padding:9px 18px;font-size:11px}
 <div id="pause" class="screen hidden">
   <h2>Paused</h2>
   <div class="sub">The torch burns on.</div>
-  <div><button id="resumeBtn">Resume</button><button id="pauseJour">Journal</button><button id="pauseSet">Settings</button><button class="shareBtn">Share</button><button id="newBtn">New cave</button><button id="pauseCon">Console</button></div>
+  <div><button id="resumeBtn">Resume</button><button id="pauseJour">Journal</button><button id="pauseSet">Settings</button><button class="shareBtn">Share</button><button id="newBtn">New cave</button><button id="pauseCon">Console</button><button id="exitBtn">Save &amp; exit</button></div>
   <a class="coffee" href="https://buymeacoffee.com/Tonyispht" target="_blank" rel="noopener">&#9749; Enjoying Lightless? Buy me a coffee</a>
   <div class="codebox">Cave code <b class="caveCode">—</b> <button class="copyBtn">Copy</button></div>
 </div>
@@ -2161,6 +2161,20 @@ function start(){
   hasSave=true;saveGame();
 }
 function pause(){if(state!=='playing')return;menuFromPlay('pause');}
+function exitToTitle(){
+  if(rest){if(rest.k!=='sit')wakeNow();else standUp();}
+  if(state==='playing'||state==='paused'){hasSave=true;saveGame();}
+  state='title';navStack=[];titleYaw=player.yaw;show('title');$('hud').classList.add('hidden');$('hint').classList.add('hidden');
+  $('prompt').style.opacity=0;promptShown='';$('soundPrompt').style.display='none';soundPromptOn=false;
+  if(locked&&document.exitPointerLock)document.exitPointerLock();exitFS();
+  const b=$('startBtn');b.disabled=false;b.textContent=`Continue · ${fmtLen(Math.max(0,world.spawn.y-player.pos.y))} deep`;$('titleNew').classList.remove('hidden');
+  $('loadmsg').textContent='Your progress is saved.';
+}
+function quitGame(){
+  if(state==='playing'||state==='paused')saveGame();exitFS();
+  try{window.close();}catch(e){}
+  setTimeout(()=>{$('loadmsg').textContent='Your progress is saved. You can close this tab or window whenever you like.';},250);
+}
 function resume(){if(state!=='paused')return;
   if(curScreen==='dialog'&&dPale&&dPale.given>0&&!dPale.heart&&!dPale.camp&&dPale.mode!=='follow'&&dPale.mode!=='leave'&&!(RUN.task&&RUN.task.pale===dPale.id)){dPale.mode='leave';dPale.leaveT=0;caption('The Pale clutches its prize and shuffles off into the dark.');}
   show(null);navStack=[];state='playing';audio.init();if(!dragMode&&!padUsed)enterGame();}
@@ -2596,6 +2610,7 @@ $$('.shareBtn').forEach(b=>b.onclick=()=>openShare());
 $('shareCopy').onclick=()=>{const t=$('shareText');t.select();let ok=false;try{navigator.clipboard.writeText(t.value).then(()=>{$('shareCopy').textContent='Copied';},()=>{try{ok=document.execCommand('copy');}catch(e){}$('shareCopy').textContent=ok?'Copied':'Select & copy';});}catch(e){try{ok=document.execCommand('copy');}catch(_){}$('shareCopy').textContent=ok?'Copied':'Select & copy';}setTimeout(()=>$('shareCopy').textContent='Copy',1800);};
 $('shareClose').onclick=()=>back();
 $('againBtn').onclick=()=>{audio.init();if(!dragMode)enterGame();newCave();};
+$('exitBtn').onclick=exitToTitle;$('quitBtn').onclick=quitGame;
 $('pauseJour').onclick=openJournal;$('pauseCon').onclick=openConsole;$('conDone').onclick=()=>back();$('conForm').addEventListener('submit',e=>{e.preventDefault();const i=$('conIn'),v=i.value;i.value='';runCmd(v);i.focus();});$('titleJour').onclick=openJournal;$('deathJour').onclick=openJournal;$('jDone').onclick=()=>back();
 $$('#jTabs button').forEach(b=>b.onclick=()=>{jTab=b.dataset.t;renderJournal();});
 $$('.copyBtn').forEach(b=>b.onclick=()=>{const c=toCode(world.seed);const done=()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1500);};
