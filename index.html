@@ -1454,7 +1454,7 @@ class World{
       if(wx*wx+wy*wy+wz*wz>(this.loadR+22)**2){if(ch.mesh){this.group.remove(ch.mesh);ch.mesh.geometry.dispose();}this.chunks.delete(key);}}
     _v.set(px,py,pz);
     for(let i=this.decor.length-1;i>=0;i--){const d=this.decor[i],dd=d.c.distanceTo(_v);
-      if(dd>320){this.group.remove(d.o);d.o.traverse(o=>{if(o.geometry)o.geometry.dispose();});this.decor.splice(i,1);continue;}
+      if(dd>700){this.group.remove(d.o);d.o.traverse(o=>{if(o.geometry)o.geometry.dispose();});this.decor.splice(i,1);continue;}
       d.o.visible=dd<44+d.r;}
   }
   update(px,py,pz,dt,budget=5){

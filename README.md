@@ -1,8 +1,12 @@
+![Lightless](media/banner-1280x640.png)
+
 # Lightless
 
 A first-person cave exploration game that runs in your browser. Every cave is procedurally generated, so no two descents are the same. You start at the cave mouth with a flickering torch, and the only way is down.
 
-**[▶ Play Lightless](https://tonyispht.github.io/Lightless/)**
+**[▶ Play Lightless](https://tonyispht.github.io/Lightless/)** &nbsp;·&nbsp; **[🎬 Watch the trailer](media/lightless-trailer.mp4)**
+
+![Gameplay preview](media/preview.gif)
 
 ## What's down there
 
@@ -13,6 +17,13 @@ A first-person cave exploration game that runs in your browser. Every cave is pr
 - A trinket shelf to fill, cave paintings to study, a journal, achievements, and something waiting a mile below
 - Daily cave (the same cave for everyone each day) and shareable cave codes
 - Keyboard and mouse, gamepad, and touch controls
+
+## Screenshots
+
+| | | |
+|---|---|---|
+| ![Sunbeam](media/screenshots/sunbeam.jpg) | ![The Pale](media/screenshots/pale.jpg) | ![Campfire](media/screenshots/sitting.jpg) |
+| ![Hot spring](media/screenshots/spring.jpg) | ![The Hollow Heart](media/screenshots/heart.jpg) | ![The Below](media/screenshots/below.jpg) |
 
 ## Controls
 
@@ -29,6 +40,10 @@ A first-person cave exploration game that runs in your browser. Every cave is pr
 ## Running it yourself
 
 It's a single HTML file. Open `index.html` in a modern browser (an internet connection is needed the first time to load three.js from a CDN), or serve the folder with any static web server.
+
+## Press kit
+
+Ready-made images for sharing are in [`media/`](media): a 1280×640 banner, three 1080×1080 posts, a 1080×1920 story, a 1920×1080 feature sheet, and the [trailer](media/lightless-trailer.mp4).
 
 ## Support
 
