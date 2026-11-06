@@ -163,6 +163,13 @@ button.small{padding:9px 18px;font-size:11px}
 #endStats{font-size:12px;letter-spacing:.1em;opacity:.6;margin-bottom:22px}
 #ending{background:radial-gradient(ellipse at center,rgba(40,50,90,.55),rgba(0,0,10,.92) 75%)}
 #tStone{width:52px;height:52px;right:252px;bottom:96px;font-size:9px}
+#tUse{font-size:10px;letter-spacing:.06em;text-align:center;line-height:1.1}
+@media (orientation:landscape){
+  #tStone{right:39px;bottom:212px}
+  #tLamp{right:132px;bottom:166px}
+  #tChalk{right:190px;bottom:30px}
+  #tSight{right:190px;bottom:96px}
+}
 #shareText{width:min(460px,90vw);font:14px/1.6 Inter,sans-serif;color:#f1e3c8;background:rgba(18,11,6,.8);border:1px solid rgba(255,186,120,.3);padding:14px;border-radius:3px;resize:none;margin-bottom:14px}
 @media (max-height:520px){.set{padding:6px 0}.set small{display:none}#settings h2{font-size:26px;margin:0 0 6px}#settings .panel{padding:8px 18px}#settings .done{margin-top:8px;padding:9px 22px}}
 </style>
@@ -3240,10 +3247,11 @@ function frame(now){
     }
     if(state==='playing'){updateFuel(dt);updateSight(dt);updateWeird(dt);updateStones(dt);updateBreath(dt,inp.run&&player.hs>2);updateMigration(dt);updateWarmth(dt);updateFatigue(dt);updateBelow(dt);
       if(audio.ok){audio.hbI=Math.max(RUN.fuel<=0?0.55+0.45*Math.min(1,RUN.darkT/45):RUN.fuel<50?(50-RUN.fuel)/50*0.5:0,RUN.freezeT>0?0.4+0.6*Math.min(1,RUN.freezeT/60):0);audio.zone=RUN.heartDone&&camDepth>ZONES.heart+30?3:camDepth>=ZONES.glimmer?2:camDepth>=ZONES.basalt?1:0;}
-      target=player.rappel||rest?null:findTarget();const K2=`<kbd>${touch.on?'Use':padUsed?'X':'E'}</kbd>`;
+      target=player.rappel||rest?null:findTarget();const K2=touch.on?'':`<kbd>${padUsed?'X':'E'}</kbd>`;
       const pt=rest?(rest.k==='sit'?`${K2}Stand up`:''):!target?'':target.k==='item'?K2+(target.o.type===-1?'Take the pouch':target.o.type===-2?'Pick up the trinket':'Pick up'):target.k==='sit'?K2+'Sit by the fire':target.k==='sleep'?K2+(RUN.tired<15?'Sleep on the bedroll (not tired)':'Sleep on the bedroll'):target.k==='pale'?`${K2}Speak with ${target.o.met?target.o.name:'the pale figure'}`:
         target.k==='way'?K2+(RUN.waystone===target.o.id?'The waystone remembers you':RUN.waySpent.includes(target.o.id)?'The runes are dark':'Touch the waystone'):target.k==='paint'?K2+'Study the painting':target.k==='rope'?K2+`Climb down with your rope (${RUN.ropes})`:K2+'Climb the rope';
-      if(pt!==promptShown){promptShown=pt;$('prompt').innerHTML=pt;$('prompt').style.opacity=pt?1:0;$('tUse').style.display=pt&&touch.on?'flex':'none';}
+      if(pt!==promptShown){promptShown=pt;$('prompt').innerHTML=pt;$('prompt').style.opacity=pt?1:0;$('tUse').style.display=pt&&touch.on?'flex':'none';
+        const k=rest?'stand':target?target.k:'';$('tUse').textContent=k==='item'?(target.o.type===-1?'Take':'Pick up'):k==='pale'?'Talk':k==='sit'?'Sit':k==='sleep'?'Sleep':k==='stand'?'Stand':k==='way'?'Touch':k==='paint'?'Study':k==='rope'||k==='ropeup'?'Climb':'Use';}
       saveT-=dt;if(saveT<=0){saveT=4;saveGame();}}
     const depth=Math.max(0,world.spawn.y-player.pos.y);
     if(state==='playing'){
